@@ -9,21 +9,22 @@ Traffic Influenced Routing explanation: \
 https://gis-ops.com/traffic-in-valhalla/ \
 https://github.com/alinmindroc/valhalla_traffic_poc \
 
-Process:
+Creating docker image and starting a container:
 
 1. Download [zuid-holland-latest.osm.pbf](https://download.geofabrik.de/europe/netherlands/zuid-holland-latest.osm.pbf) to this directory.
 2. Build the docker image `docker build -t valhalla-traffic-zuid-holland .`
 3. Start the container `docker run -d -t --name 'valhalla-traffic-zuid-holland' -p 8002:8002 valhalla-traffic-zuid-holland`
-4. Connect to the container `docker exec -it valhalla-traffic-zuid-holland bash`
-5. In the container, start the server `initserver`
 
-Now you can see predicted traffic aplied to this way: https://www.openstreetmap.org/way/127838917
+Starting the valhalla server:
 
-oude waalsdorperweg \
-curl http://localhost:8002/locate --data '{"locations": [{"lat": 52.105116, "lon": 4.318969}], "verbose": true}' | jq
+1. Connect to the container `docker exec -it valhalla-traffic-zuid-holland bash`
+2. In the container, start the server `initserver`
+   Now you can see predicted traffic aplied to this way: https://www.openstreetmap.org/way/127838917
+
+Manipulating live speed:
+
+1. Connect to the container `docker exec -it valhalla-traffic-zuid-holland bash`
+2. In the container, use the command `setlivespeed XX` to manipulate live speed on this way: https://www.openstreetmap.org/way/127838917
 
 demo pagina \
 https://valhalla.github.io/demos/routing/index-internal.html#loc=17,52.106093,4.323276
-
-normal routing
-https://valhalla.github.io/demos/routing/index-internal.html#loc=16,52.106960,4.324590&directionsoptions={%22language%22:%22en-US%22}&directionsoptions={%22language%22:%22en-US%22}&datetime={%22type%22:0}&locations=[{%22lat%22:52.10919366812656,%22lon%22:4.327279552817345},{%22lat%22:52.102241513177,%22lon%22:4.317217580974102}]&costing=%22auto%22
